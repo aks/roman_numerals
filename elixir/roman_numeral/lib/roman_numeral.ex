@@ -70,9 +70,8 @@ defmodule RomanNumeral do
   @roman_letters_re ~r{(C[MD]|X[CL]|I[XV]|[MDCLXVI])}
 
   def to_arabic(roman) do
-    roman_num = String.upcase(roman)
-    roman_numbers = Regex.scan(@roman_letters_re, roman_num)
-    List.foldl(roman_numbers, 0, fn(x, acc) -> acc + @roman_letters[hd(x)] end)
+    Regex.scan(@roman_letters_re, String.upcase(roman))
+    |> List.foldl(0, fn(x, acc) -> acc + @roman_letters[hd(x)] end)
   end
 
 end
