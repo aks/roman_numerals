@@ -85,17 +85,12 @@ class RomanNumeral
       'I'  =>    1
    }
 
-  Roman_Letters_RE = /^(C[MD]|X[CL]|I[XV]|[MDCLXVI])/
+  Roman_Letters_RE = /C[MD]|X[CL]|I[XV]|[MDCLXVI]/
 
   def convert_to_arabic
-    roman_num = @number.to_s.upcase
-    result = 0
-    while roman_num.size > 0 && Roman_Letters_RE =~ roman_num do
-      result += Roman_Letters[$1]
-      roman_num.slice!(0,$1.size)
-    end
-    # ignore any unconverted text
-    # raise ValueError if roman_num.size > 0
-    result
+    @number.to_s.upcase.scan(Roman_Letters_RE).map do |roman_letter|
+      Roman_Letters[roman_letter]
+    end.compact.reduce(:+)
   end
+
 end
